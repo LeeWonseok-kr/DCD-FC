@@ -35,6 +35,8 @@ These are development test builds of ArduCopter 4.8.0-dev. Board ID 1413 is a lo
 | [Firmware APJ](DCD_FC_ArduCopter_4.8.0-dev.apj) | Mission Planner custom firmware update with a matching bootloader |
 | [Combined HEX](DCD_FC_ArduCopter_with_Bootloader.hex) | Initial FMU installation: bootloader and firmware |
 | [Bootloader HEX](DCD_FC_Bootloader.hex) / [BIN](DCD_FC_Bootloader.bin) | FMU bootloader |
+| [IO bootloader HEX](DCD_FC_IO_Bootloader.hex) / [BIN](DCD_FC_IO_Bootloader.bin) | Stock STM32F103 IO bootloader; IOUP only |
+| [IO bootloader package](DCD_FC_IO_Bootloader_Package.zip) | IO BIN, HEX, matching source and build instructions |
 | [Firmware BIN](DCD_FC_ArduCopter_4.8.0-dev.bin) | Raw FMU application image |
 
 [Installation instructions](INSTALL.md) · [설치 안내](INSTALL_KO.md) · [SHA-256 checksums](SHA256SUMS.txt)

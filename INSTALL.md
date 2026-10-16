@@ -10,6 +10,8 @@ ArduCopter 4.8.0-dev · local test board ID 1413.
 
 The combined image and FMU bootloader are for **FUUP, not IOUP**. For raw BIN programming, the FMU bootloader starts at `0x08000000` and the application at `0x08020000`. HEX files already contain their addresses.
 
+For an IO processor without a bootloader, connect ST-Link to **IOUP** and program `DCD_FC_IO_Bootloader.hex`, then verify. The BIN address is `0x08000000`; the IO application starts at `0x08001000`. This is the unmodified stock PX4 IO bootloader, byte-identical to the existing stock binary. A working IO bootloader does not need replacement. [IO package and matching source](DCD_FC_IO_Bootloader_Package.zip).
+
 Saved parameters take precedence over firmware defaults. Battery voltage multiplier: `8.987575`; current scale: `0.25 A/V`; analog monitor: `4`; voltage/current pins: `8/4`. The current scale is retained from the existing setup and requires calibration. Onboard current excludes ESC propulsion current.
 
 These development images have passed build and image checks; full physical-board validation is not complete. Board ID 1413 is not an official allocation.

@@ -9,3 +9,7 @@ The source archive includes `BUILD_DCD_FC.md`. Use GNU Arm Embedded **10.2.1 (10
 [DCD FC source overlay and build instructions](DCD_FC_Source_Overlay.zip) are also provided for review against the pinned upstream commit. The full archive is the complete download for the matching firmware source.
 
 Board ID 1413 is a local test candidate; it is not an official assignment.
+
+## IO bootloader
+
+The [IO bootloader package](DCD_FC_IO_Bootloader_Package.zip) contains the separate stock IO bootloader and its matching PX4 source and libopencm3 dependency. [Build instructions](BUILD_IO.md). The unmodified `px4io_bl` build from PX4/PX4-Bootloader commit `6b1f48b69743165929deacfe443acdb2383d0f5a` with GNU Arm Embedded 10.2.1 reproduces the existing 3,732-byte stock binary exactly (SHA-256 `e9ba66410e14dd486f8dc1aff66f059dc5590a21fb4e1608deee08382aacb342`).
