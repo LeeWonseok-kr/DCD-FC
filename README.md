@@ -17,18 +17,22 @@ DCD FC is a flight controller with integrated power distribution from Corp.DCLAS
 
 ## Manuals
 
-- [English manual — REV1](DCD_FC_Manual_EN_REV1.pdf)
-- [Korean manual — REV1](DCD_FC_Manual_KO_REV1.pdf)
+- [English manual — REV2](DCD_FC_Manual_EN_REV2.pdf)
+- [Korean manual — REV2](DCD_FC_Manual_KO_REV2.pdf)
 
 The manuals include connector pinouts, wiring, dimensions, installation orientation and power specifications. Front points toward the BAT/ESC pads. Attach the FC to the aircraft with double-sided tape.
 
 The onboard current sensor measures battery current supplied to the FC, peripherals and PWM power rail. It does not measure ESC propulsion current. An external sensor is needed to measure total aircraft battery consumption.
 
+The updated board support in [PR #34796](https://github.com/ArduPilot/ardupilot/pull/34796) defaults to `BATT_MONITOR=3` (voltage only). Users who want to view FC supply current can select `BATT_MONITOR=4`, using voltage/current pins `8/4`, voltage multiplier `8.987575`, current scale `0.25 A/V` and offset `0`, then reboot and calibrate against a meter. This excludes ESC current; do not use it for total aircraft consumption, remaining capacity or capacity-based failsafes. Saved settings survive updates; select `3` and reboot to use voltage-only monitoring.
+
 ## Firmware downloads
 
 [Release downloads / 릴리스 다운로드](https://github.com/LeeWonseok-kr/DCD-FC/releases/tag/test-2026-10-13)
 
-These are development test builds of ArduCopter 4.8.0-dev. Board ID 1413 is a local test candidate, not an official ArduPilot allocation. Full hardware validation is not complete.
+These downloads are the earlier ArduCopter 4.8.0-dev development test builds, with `BATT_MONITOR=4` as their original default. They do not contain the latest PR changes. Board ID **1413** was reserved in [#34787](https://github.com/ArduPilot/ardupilot/pull/34787). Full hardware validation is not complete.
+
+After board support is merged and builds are published, look for target `DCD-FC` on the [official ArduPilot firmware server](https://firmware.ardupilot.org). The updated port uses maintained stock F103 standard/DShot IO applications; the compatible stock IO bootloader is retained.
 
 | File | Use |
 |---|---|

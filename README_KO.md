@@ -17,18 +17,22 @@ DCD FC는 Corp.DCLASS의 전원 분배 일체형 비행제어기입니다. 비�
 
 ## 매뉴얼
 
-- [한글 매뉴얼 — REV1](DCD_FC_Manual_KO_REV1.pdf)
-- [영문 매뉴얼 — REV1](DCD_FC_Manual_EN_REV1.pdf)
+- [한글 매뉴얼 — REV2](DCD_FC_Manual_KO_REV2.pdf)
+- [영문 매뉴얼 — REV2](DCD_FC_Manual_EN_REV2.pdf)
 
 포트 핀 배열, 배선도, 치수, 장착 방향과 전원 사양을 수록했습니다. BAT·ESC 전원 패드 쪽이 Front이며, FC는 양면테이프로 기체에 고정합니다.
 
 내장 전류 센서는 배터리에서 FC·주변기기·PWM 전원으로 공급되는 전류를 측정합니다. ESC 구동 전류는 포함하지 않습니다. 기체 전체 배터리 소모량 측정에는 외부 전류 센서가 필요합니다.
 
+[PR #34796](https://github.com/ArduPilot/ardupilot/pull/34796)의 수정본은 기본값 `BATT_MONITOR=3`으로 전압만 측정합니다. FC 전류도 확인하려는 사용자는 `BATT_MONITOR=4`, 전압·전류 핀 `8/4`, 전압 배율 `8.987575`, 전류 배율 `0.25 A/V`, 오프셋 `0`으로 설정한 뒤 재부팅하고 계측기로 보정하세요. ESC 전류는 포함하지 않으므로 기체 전체 소비량·잔량이나 용량 기준 경고에 사용하지 마세요. 저장된 설정은 업데이트 후에도 유지되며, 전압만 측정하려면 `3`으로 저장하고 재부팅하세요.
+
 ## 부트로더와 펌웨어
 
 [Release downloads / 릴리스 다운로드](https://github.com/LeeWonseok-kr/DCD-FC/releases/tag/test-2026-10-13)
 
-ArduCopter 4.8.0-dev 시험용 개발 빌드입니다. 보드 ID 1413은 로컬 시험용 후보값으로, ArduPilot 공식 배정 번호가 아닙니다. 전체 실물 시험은 완료되지 않았습니다.
+아래 다운로드는 기존 ArduCopter 4.8.0-dev 시험용 개발 빌드이며, 당시 기본값은 `BATT_MONITOR=4`입니다. 최신 PR 수정사항은 포함하지 않습니다. 보드 ID **1413**은 [#34787](https://github.com/ArduPilot/ardupilot/pull/34787)에서 예약됐습니다. 전체 실물 시험은 완료되지 않았습니다.
+
+보드 지원이 병합되고 빌드가 공개되면 [ArduPilot 공식 펌웨어 서버](https://firmware.ardupilot.org)에서 `DCD-FC` 타깃을 이용할 수 있습니다. 수정된 포트는 공용으로 관리되는 순정 F103 일반·DShot IO 응용 펌웨어를 사용하며, 호환되는 순정 IO 부트로더는 유지합니다.
 
 | 파일 | 용도 |
 |---|---|
