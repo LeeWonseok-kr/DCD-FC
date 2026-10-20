@@ -4,7 +4,7 @@ ArduCopter 4.8.0-dev · 예약된 보드 ID 1413.
 
 DCD FC는 ArduPilot 호환 부트로더를 기록하여 출고합니다. 일반 업데이트는 USB로 DCD-FC용 `.apj`를 업로드하며 DFU 진입이나 ST-Link는 필요하지 않습니다. FURE·IORE는 각각 FMU·IO 리셋 버튼입니다.
 
-아래 파일은 이전 개발 빌드입니다. 현재 보드 사용법은 [REV4 매뉴얼](DCD_FC_Manual_KO_REV4.pdf)을 참고하세요. ST-Link 절차는 부트로더가 없는 보드의 최초 기록 또는 복구용입니다.
+아래 파일은 이전 개발 빌드입니다. 현재 보드 사용법은 [REV5 매뉴얼](DCD_FC_Manual_KO_REV5.pdf)을 참고하세요. ST-Link 절차는 부트로더가 없는 보드의 최초 기록 또는 복구용입니다.
 
 1. 기존 파라미터를 저장하고 프로펠러를 제거합니다.
 2. 부트로더 최초 기록·복구 시에는 FMU SWD 포트(FUUP)에 ST-Link를 연결합니다. STM32CubeProgrammer에서 `DCD_FC_ArduCopter_with_Bootloader.hex`를 기록하고 Verify로 확인합니다. HEX에 포함된 주소를 사용하며, FUUP 핀 배열은 매뉴얼을 따릅니다. 3.3 V REF는 디버거 전압 기준입니다.

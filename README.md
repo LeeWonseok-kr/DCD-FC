@@ -17,8 +17,8 @@ DCD FC is a flight controller with integrated power distribution from Corp.DCLAS
 
 ## Manuals
 
-- [English manual — REV4](DCD_FC_Manual_EN_REV4.pdf)
-- [Korean manual — REV4](DCD_FC_Manual_KO_REV4.pdf)
+- [English manual — REV5](DCD_FC_Manual_EN_REV5.pdf)
+- [Korean manual — REV5](DCD_FC_Manual_KO_REV5.pdf)
 
 The manuals include connector pinouts, wiring, dimensions, installation orientation and power specifications. Front points toward the BAT/ESC pads. Attach the FC to the aircraft with double-sided tape.
 
@@ -82,7 +82,7 @@ After board support is merged and builds are published, use the DCD-FC target on
 
 ## PWM and DShot
 
-All 16 outputs support PWM and DShot. To use Bi-Directional DShot on I1-I8, set BRD_IO_DSHOT=1 and reboot.
+All 16 outputs support PWM and DShot. To use Bi-Directional DShot on I1-I4, set BRD_IO_DSHOT=1 and reboot.
 
 | Board outputs | ArduPilot outputs | Timer group |
 |---|---|---|

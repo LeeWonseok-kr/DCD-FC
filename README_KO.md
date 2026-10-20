@@ -17,8 +17,8 @@ DCD FC는 Corp.DCLASS의 전원 분배 일체형 비행제어기입니다. 비�
 
 ## 매뉴얼
 
-- [한글 매뉴얼 — REV4](DCD_FC_Manual_KO_REV4.pdf)
-- [영문 매뉴얼 — REV4](DCD_FC_Manual_EN_REV4.pdf)
+- [한글 매뉴얼 — REV5](DCD_FC_Manual_KO_REV5.pdf)
+- [영문 매뉴얼 — REV5](DCD_FC_Manual_EN_REV5.pdf)
 
 포트 핀 배열, 배선도, 치수, 장착 방향과 전원 사양을 수록했습니다. BAT·ESC 전원 패드 쪽이 Front이며, FC는 양면테이프로 기체에 고정합니다.
 
@@ -82,7 +82,7 @@ ArduPilot 호환 부트로더가 기록된 상태로 출고됩니다. USB를 연
 
 ## PWM과 DShot
 
-16개 출력 모두 PWM과 DShot을 지원합니다. I1~I8의 양방향 DShot은 BRD_IO_DSHOT=1로 설정하고 재부팅하여 사용합니다.
+16개 출력 모두 PWM과 DShot을 지원합니다. I1~I4의 양방향 DShot은 BRD_IO_DSHOT=1로 설정하고 재부팅하여 사용합니다.
 
 | 보드 출력 | ArduPilot 출력 | 타이머 그룹 |
 |---|---|---|
