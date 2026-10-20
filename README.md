@@ -17,8 +17,8 @@ DCD FC is a flight controller with integrated power distribution from Corp.DCLAS
 
 ## Manuals
 
-- [English manual — REV3](DCD_FC_Manual_EN_REV3.pdf)
-- [Korean manual — REV3](DCD_FC_Manual_KO_REV3.pdf)
+- [English manual — REV4](DCD_FC_Manual_EN_REV4.pdf)
+- [Korean manual — REV4](DCD_FC_Manual_KO_REV4.pdf)
 
 The manuals include connector pinouts, wiring, dimensions, installation orientation and power specifications. Front points toward the BAT/ESC pads. Attach the FC to the aircraft with double-sided tape.
 
@@ -28,16 +28,36 @@ Current [DCD-FC board support](https://github.com/ArduPilot/ardupilot/pull/34796
 
 The settings below describe the current DCD-FC board support. Earlier development firmware listed below may have different defaults or features.
 
-## Reset buttons and indicators
+## Reset buttons and individual LEDs
 
-| Label | Function |
+FURE resets the FMU; IORE resets the IO processor. These are not DFU buttons. Do not press them during flight.
+
+Top view of the enclosure with BAT/ESC power pads at the top. Numbers identify the LEDs in this guide.
+
+![LED positions](DCD_FC_LED_Positions.png)
+
+| Position | Function | Indication |
+|---|---|---|
+| 1 · FU left | FMU status | Arming, pre-arm checks and calibration. See the patterns below. |
+| 2 · FU centre | GPS status | Off with no GPS or no fix. After a fix, repeated groups of flashes reflect the satellite count. |
+| 3 · FU right | FMU power | On when the FMU 3.3 V supply is present. |
+| 4 · IO left | FMU link warning | On if no FMU control data is received for over 200 ms. Off while data is being received normally. |
+| 5 · IO centre | IO steady indicator | Held on while stock IO firmware runs. Use LED 4 to check FMU communication. |
+| 6 · IO right | IO power | On when the IO 3.3 V supply is present. |
+
+### LED 1 FMU status patterns
+
+| Pattern | State |
 |---|---|
-| FURE | Resets the FMU main processor |
-| IORE | Resets the IO processor |
-| FU LEDs | FMU 3.3 V power; arming, pre-arm and calibration status; GPS status |
-| IO LEDs | IO 3.3 V power; ring LED held on by stock IO firmware; FMU communication-loss/failsafe indication |
+| Rapid flashing just after startup | Initialising |
+| Slow single flashes while disarmed | Pre-arm checks passed |
+| Repeated double flashes while disarmed | Pre-arm checks failed; check ground-station messages |
+| Steady on | Armed, with no battery, RC or GCS failsafe |
+| Flashing while armed | Battery failsafe; faster flashing for RC or GCS failsafe |
 
-FURE and IORE are not DFU buttons. Do not press them during flight.
+LEDs 1 and 2 alternate during trim saving or ESC calibration. Both flash briefly together during compass or IMU temperature calibration.
+
+These are the normal indications while ArduPilot runs. Bootloader, firmware-update and AutoTune notifications use other patterns. Power LEDs alone do not confirm correct operation.
 
 ## UART and USB
 
