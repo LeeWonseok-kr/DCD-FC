@@ -4,7 +4,7 @@ ArduCopter 4.8.0-dev · 예약된 보드 ID 1413.
 
 DCD FC는 ArduPilot 호환 부트로더를 기록하여 출고합니다. 일반 업데이트는 USB로 DCD-FC용 `.apj`를 업로드하며 DFU 진입이나 ST-Link는 필요하지 않습니다. FURE·IORE는 각각 FMU·IO 리셋 버튼입니다.
 
-아래 파일은 이전 개발 빌드입니다. 현재 보드 사용법은 [REV5 매뉴얼](DCD_FC_Manual_KO_REV5.pdf)을 참고하세요. ST-Link 절차는 부트로더가 없는 보드의 최초 기록 또는 복구용입니다.
+아래 파일은 이전 개발 빌드입니다. 현재 보드 사용법은 [REV6 매뉴얼](DCD_FC_Manual_KO_REV6.pdf)을 참고하세요. ST-Link 절차는 부트로더가 없는 보드의 최초 기록 또는 복구용입니다.
 
 1. 기존 파라미터를 저장하고 프로펠러를 제거합니다.
 2. 부트로더 최초 기록·복구 시에는 FMU SWD 포트(FUUP)에 ST-Link를 연결합니다. STM32CubeProgrammer에서 `DCD_FC_ArduCopter_with_Bootloader.hex`를 기록하고 Verify로 확인합니다. HEX에 포함된 주소를 사용하며, FUUP 핀 배열은 매뉴얼을 따릅니다. 3.3 V REF는 디버거 전압 기준입니다.
@@ -20,4 +20,4 @@ IO 부트로더가 없는 보드는 ST-Link를 **IOUP**에 연결하고 `DCD_FC_
 
 FC 전류도 확인하려는 사용자는 `BATT_MONITOR=4`, `BATT_CURR_PIN=4`, `BATT_AMP_PERVLT=0.25`, `BATT_AMP_OFFSET=0`으로 설정하고 재부팅한 뒤 계측기로 보정하세요. ESC 구동 전류는 포함되지 않습니다. 기체 전체 소비량·잔량이나 용량 기준 경고에는 사용하지 말고, 전체 전류 측정에는 별도 센서를 사용하세요.
 
-개발 이미지의 빌드·파일 검사는 통과했으며 전체 실물 시험은 완료되지 않았습니다. 보드 ID 1413은 ArduPilot PR #34787에서 예약됐습니다.
+보드 ID 1413은 ArduPilot PR #34787에서 예약됐습니다. 최신·이전 펌웨어의 시험 결과는 [시험 기록](TESTING_KO.md)을 참고하세요.

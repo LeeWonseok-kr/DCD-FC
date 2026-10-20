@@ -17,8 +17,8 @@ DCD FC is a flight controller with integrated power distribution from Corp.DCLAS
 
 ## Manuals
 
-- [English manual — REV5](DCD_FC_Manual_EN_REV5.pdf)
-- [Korean manual — REV5](DCD_FC_Manual_KO_REV5.pdf)
+- [English manual — REV6](DCD_FC_Manual_EN_REV6.pdf)
+- [Korean manual — REV6](DCD_FC_Manual_KO_REV6.pdf)
 
 The manuals include connector pinouts, wiring, dimensions, installation orientation and power specifications. Front points toward the BAT/ESC pads. Attach the FC to the aircraft with double-sided tape.
 
@@ -37,7 +37,7 @@ Top view of the enclosure with BAT/ESC power pads at the top. Numbers identify t
 ![LED positions](DCD_FC_LED_Positions.png)
 
 | Position | Function | Indication |
-|---|---|---|
+| --- | --- | --- |
 | 1 · FU left | FMU status | Arming, pre-arm checks and calibration. See the patterns below. |
 | 2 · FU centre | GPS status | Off with no GPS or no fix. After a fix, repeated groups of flashes reflect the satellite count. |
 | 3 · FU right | FMU power | On when the FMU 3.3 V supply is present. |
@@ -48,7 +48,7 @@ Top view of the enclosure with BAT/ESC power pads at the top. Numbers identify t
 ### LED 1 FMU status patterns
 
 | Pattern | State |
-|---|---|
+| --- | --- |
 | Rapid flashing just after startup | Initialising |
 | Slow single flashes while disarmed | Pre-arm checks passed |
 | Repeated double flashes while disarmed | Pre-arm checks failed; check ground-station messages |
@@ -62,7 +62,7 @@ These are the normal indications while ArduPilot runs. Bootloader, firmware-upda
 ## UART and USB
 
 | Parameter | Connection | Default protocol |
-|---|---|---|
+| --- | --- | --- |
 | SERIAL0 | First USB virtual port | MAVLink |
 | SERIAL1 | TLM1 / UART7 / CTS/RTS | MAVLink2 |
 | SERIAL2 | TLM2 / UART5 / CTS/RTS | MAVLink2 |
@@ -73,6 +73,10 @@ These are the normal indications while ArduPilot runs. Bootloader, firmware-upda
 | SERIAL7 | Second virtual port on the same USB | MAVLink2 |
 
 All UARTs have RX and TX DMA. USART6 is the internal link between the FMU and IO processors.
+
+## Yaapu telemetry
+
+For TLM2 (SERIAL2), set SERIAL2_PROTOCOL=10 (FrSky S.Port Passthrough) and reboot. Follow the receiver or adapter instructions for its S.Port wiring. This telemetry path is separate from the SBUS control input on S.B.
 
 ## Loading firmware
 
@@ -85,7 +89,7 @@ After board support is merged and builds are published, use the DCD-FC target on
 All 16 outputs support PWM and DShot. To use Bi-Directional DShot on I1-I4, set BRD_IO_DSHOT=1 and reboot.
 
 | Board outputs | ArduPilot outputs | Timer group |
-|---|---|---|
+| --- | --- | --- |
 | I1-I2 | SERVO1-2 | IO TIM2 |
 | I3-I4 | SERVO3-4 | IO TIM4 |
 | I5-I8 | SERVO5-8 | IO TIM3 |
@@ -104,7 +108,7 @@ For analog RSSI on S.B pin 3, set RSSI_TYPE=1 and RSSI_ANA_PIN=103. S.OUT is the
 ## GPIO
 
 | Board outputs | GPIO numbers |
-|---|---|
+| --- | --- |
 | F1-F8 | 50-57 |
 | I1-I8 | 101-108 |
 
@@ -114,16 +118,22 @@ Use these numbers when configuring output pins as GPIOs. GPIO pins carry signals
 
 An IST8310 compass is fitted. Due to potential magnetic interference, an external I2C compass in a GPS/compass module is recommended.
 
+## Board support and testing
+
+[ArduPilot board-support PR #34796](https://github.com/ArduPilot/ardupilot/pull/34796) · [Test record](TESTING.md) · [Source and build instructions](SOURCE.md)
+
+On 2026-10-21, ArduCopter `d2416fe2` passed contributor-reported boot, barometer response, S.B SBUS input and TLM2 Yaapu reception checks. That test image differs from the earlier downloads below. The test record separates current and historical evidence.
+
 ## Earlier development firmware
 
 [Release downloads / 릴리스 다운로드](https://github.com/LeeWonseok-kr/DCD-FC/releases/tag/test-2026-10-13)
 
-These downloads are the earlier ArduCopter 4.8.0-dev development test builds, with `BATT_MONITOR=4` as their original default. They do not contain the latest PR changes. Board ID **1413** was reserved in [#34787](https://github.com/ArduPilot/ardupilot/pull/34787). Full hardware validation is not complete.
+These downloads are the earlier ArduCopter 4.8.0-dev development test builds, with `BATT_MONITOR=4` as their original default. They do not contain the latest PR changes. Board ID **1413** was reserved in [#34787](https://github.com/ArduPilot/ardupilot/pull/34787). See the [test record](TESTING.md) for the scope of the historical tests.
 
 After board support is merged and builds are published, look for target `DCD-FC` on the [official ArduPilot firmware server](https://firmware.ardupilot.org). The updated port uses maintained stock F103 standard/DShot IO applications; the compatible stock IO bootloader is retained.
 
 | File | Use |
-|---|---|
+| --- | --- |
 | [Firmware APJ](DCD_FC_ArduCopter_4.8.0-dev.apj) | Mission Planner custom firmware update with a matching bootloader |
 | [Combined HEX](DCD_FC_ArduCopter_with_Bootloader.hex) | Initial FMU installation: bootloader and firmware |
 | [Bootloader HEX](DCD_FC_Bootloader.hex) / [BIN](DCD_FC_Bootloader.bin) | FMU bootloader |

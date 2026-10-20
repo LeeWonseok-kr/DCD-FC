@@ -4,7 +4,7 @@ ArduCopter 4.8.0-dev · reserved board ID 1413.
 
 DCD FC ships with an ArduPilot-compatible bootloader. For normal updates, upload a DCD-FC `.apj` over USB; DFU mode and ST-Link are not required. FURE and IORE reset the FMU and IO processors respectively.
 
-The files below are earlier development builds. See the [REV5 manual](DCD_FC_Manual_EN_REV5.pdf) for current board instructions. The ST-Link procedure is for initial programming of a board without a bootloader or for recovery.
+The files below are earlier development builds. See the [REV6 manual](DCD_FC_Manual_EN_REV6.pdf) for current board instructions. The ST-Link procedure is for initial programming of a board without a bootloader or for recovery.
 
 1. Save the existing parameters and remove propellers.
 2. For initial bootloader programming or recovery, connect an ST-Link to the FMU SWD port (FUUP). In STM32CubeProgrammer, program `DCD_FC_ArduCopter_with_Bootloader.hex` using its embedded addresses, then verify. Refer to the manual for the FUUP pinout. The 3.3 V REF pin is the debugger voltage reference.
@@ -20,4 +20,4 @@ For voltage-only monitoring, select `BATT_MONITOR=3`, `BATT_VOLT_PIN=8` and `BAT
 
 To optionally view FC supply current, select `BATT_MONITOR=4`, `BATT_CURR_PIN=4`, `BATT_AMP_PERVLT=0.25` and `BATT_AMP_OFFSET=0`, then reboot and calibrate against a reference meter. ESC propulsion current is excluded. Do not use this monitor for total aircraft consumption, remaining capacity or capacity-based failsafes. Use a separate sensor for total battery current.
 
-These development images have passed build and image checks; full physical-board validation is not complete. Board ID 1413 was reserved in ArduPilot PR #34787.
+Board ID 1413 was reserved in ArduPilot PR #34787. See the [test record](TESTING.md) for current and historical firmware results.

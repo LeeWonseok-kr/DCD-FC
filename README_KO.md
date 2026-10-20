@@ -17,8 +17,8 @@ DCD FC는 Corp.DCLASS의 전원 분배 일체형 비행제어기입니다. 비�
 
 ## 매뉴얼
 
-- [한글 매뉴얼 — REV5](DCD_FC_Manual_KO_REV5.pdf)
-- [영문 매뉴얼 — REV5](DCD_FC_Manual_EN_REV5.pdf)
+- [한글 매뉴얼 — REV6](DCD_FC_Manual_KO_REV6.pdf)
+- [영문 매뉴얼 — REV6](DCD_FC_Manual_EN_REV6.pdf)
 
 포트 핀 배열, 배선도, 치수, 장착 방향과 전원 사양을 수록했습니다. BAT·ESC 전원 패드 쪽이 Front이며, FC는 양면테이프로 기체에 고정합니다.
 
@@ -37,7 +37,7 @@ FURE는 FMU, IORE는 IO 프로세서를 리셋합니다. DFU 진입 버튼이 �
 ![LED positions](DCD_FC_LED_Positions.png)
 
 | 위치 | 역할 | 표시 의미 |
-|---|---|---|
+| --- | --- | --- |
 | 1 · FU 왼쪽 | FMU 상태 | 시동·사전 점검·보정 상태를 표시합니다. 아래 점멸 설명을 참고하세요. |
 | 2 · FU 가운데 | GPS 상태 | GPS 미연결·위치 미확정 시 꺼집니다. 위치 확보 후 위성 수에 따른 묶음 점멸을 반복합니다. |
 | 3 · FU 오른쪽 | FMU 전원 | FMU 3.3 V 전원이 공급되면 켜집니다. |
@@ -48,7 +48,7 @@ FURE는 FMU, IORE는 IO 프로세서를 리셋합니다. DFU 진입 버튼이 �
 ### 1번 FMU 상태 LED 점멸
 
 | 표시 | 상태 |
-|---|---|
+| --- | --- |
 | 빠른 점멸 · 부팅 직후 | 초기화 중 |
 | 느린 한 번 점멸 반복 · 시동 전 | 사전 점검 통과 |
 | 두 번씩 점멸 반복 · 시동 전 | 사전 점검 미통과 — 지상국 메시지 확인 |
@@ -62,7 +62,7 @@ FURE는 FMU, IORE는 IO 프로세서를 리셋합니다. DFU 진입 버튼이 �
 ## UART와 USB
 
 | 파라미터 | 연결 | 기본 프로토콜 |
-|---|---|---|
+| --- | --- | --- |
 | SERIAL0 | USB 첫 번째 가상 포트 | MAVLink |
 | SERIAL1 | TLM1 · UART7 · CTS/RTS | MAVLink2 |
 | SERIAL2 | TLM2 · UART5 · CTS/RTS | MAVLink2 |
@@ -73,6 +73,10 @@ FURE는 FMU, IORE는 IO 프로세서를 리셋합니다. DFU 진입 버튼이 �
 | SERIAL7 | 같은 USB의 두 번째 가상 포트 | MAVLink2 |
 
 모든 UART는 송신·수신 DMA를 사용합니다. USART6는 FMU와 IO 사이의 내부 통신용입니다.
+
+## Yaapu 텔레메트리
+
+TLM2(SERIAL2)에서 SERIAL2_PROTOCOL=10(FrSky S.Port Passthrough)으로 설정하고 재부팅합니다. 수신기·변환기 배선은 해당 장치의 S.Port 연결 규격을 따르세요. S.B의 SBUS 조종 입력과 별도의 텔레메트리 경로입니다.
 
 ## 펌웨어 설치
 
@@ -85,7 +89,7 @@ ArduPilot 호환 부트로더가 기록된 상태로 출고됩니다. USB를 연
 16개 출력 모두 PWM과 DShot을 지원합니다. I1~I4의 양방향 DShot은 BRD_IO_DSHOT=1로 설정하고 재부팅하여 사용합니다.
 
 | 보드 출력 | ArduPilot 출력 | 타이머 그룹 |
-|---|---|---|
+| --- | --- | --- |
 | I1~I2 | SERVO1~2 | IO TIM2 |
 | I3~I4 | SERVO3~4 | IO TIM4 |
 | I5~I8 | SERVO5~8 | IO TIM3 |
@@ -104,7 +108,7 @@ SBUS 수신기는 S.B의 4번 핀에 연결합니다. PPM은 지원하지 않습
 ## GPIO
 
 | 보드 출력 | GPIO 번호 |
-|---|---|
+| --- | --- |
 | F1~F8 | 50~57 |
 | I1~I8 | 101~108 |
 
@@ -114,16 +118,22 @@ SBUS 수신기는 S.B의 4번 핀에 연결합니다. PPM은 지원하지 않습
 
 IST8310 나침반이 내장되어 있습니다. 장착 환경의 자기장 간섭을 고려하여 GPS와 결합된 외부 I2C 나침반 사용을 권장합니다.
 
+## 보드 지원과 시험 기록
+
+[ArduPilot 보드 지원 PR #34796](https://github.com/ArduPilot/ardupilot/pull/34796) · [시험 기록](TESTING_KO.md) · [소스 및 빌드 안내](SOURCE.md)
+
+2026-10-21에 ArduCopter `d2416fe2`에서 정상 부팅, 기압계 반응, S.B SBUS 입력 및 TLM2 Yaapu 수신을 확인했습니다. 아래 이전 개발 다운로드와 시험 버전은 다릅니다. 이전 시험과 최신 시험의 범위는 시험 기록에 정리했습니다.
+
 ## 이전 개발 펌웨어 자료
 
 [Release downloads / 릴리스 다운로드](https://github.com/LeeWonseok-kr/DCD-FC/releases/tag/test-2026-10-13)
 
-아래 다운로드는 기존 ArduCopter 4.8.0-dev 시험용 개발 빌드이며, 당시 기본값은 `BATT_MONITOR=4`입니다. 최신 PR 수정사항은 포함하지 않습니다. 보드 ID **1413**은 [#34787](https://github.com/ArduPilot/ardupilot/pull/34787)에서 예약됐습니다. 전체 실물 시험은 완료되지 않았습니다.
+아래 다운로드는 기존 ArduCopter 4.8.0-dev 시험용 개발 빌드이며, 당시 기본값은 `BATT_MONITOR=4`입니다. 최신 PR 수정사항은 포함하지 않습니다. 보드 ID **1413**은 [#34787](https://github.com/ArduPilot/ardupilot/pull/34787)에서 예약됐습니다. 이전 빌드의 시험 범위는 [시험 기록](TESTING_KO.md)을 참고하세요.
 
 보드 지원이 병합되고 빌드가 공개되면 [ArduPilot 공식 펌웨어 서버](https://firmware.ardupilot.org)에서 `DCD-FC` 타깃을 이용할 수 있습니다. 수정된 포트는 공용으로 관리되는 순정 F103 일반·DShot IO 응용 펌웨어를 사용하며, 호환되는 순정 IO 부트로더는 유지합니다.
 
 | 파일 | 용도 |
-|---|---|
+| --- | --- |
 | [펌웨어 APJ](DCD_FC_ArduCopter_4.8.0-dev.apj) | 같은 보드 ID의 부트로더에서 Mission Planner로 갱신 |
 | [통합 HEX](DCD_FC_ArduCopter_with_Bootloader.hex) | FMU 최초 설치: 부트로더와 펌웨어 |
 | [부트로더 HEX](DCD_FC_Bootloader.hex) / [BIN](DCD_FC_Bootloader.bin) | FMU 부트로더 |
