@@ -17,8 +17,8 @@ DCD FC는 Corp.DCLASS의 전원 분배 일체형 비행제어기입니다. 비�
 
 ## 매뉴얼
 
-- [한글 매뉴얼 — REV6](DCD_FC_Manual_KO_REV6.pdf)
-- [영문 매뉴얼 — REV6](DCD_FC_Manual_EN_REV6.pdf)
+- [한글 매뉴얼 — REV7](DCD_FC_Manual_KO_REV7.pdf)
+- [영문 매뉴얼 — REV7](DCD_FC_Manual_EN_REV7.pdf)
 
 포트 핀 배열, 배선도, 치수, 장착 방향과 전원 사양을 수록했습니다. BAT·ESC 전원 패드 쪽이 Front이며, FC는 양면테이프로 기체에 고정합니다.
 
@@ -84,9 +84,15 @@ ArduPilot 호환 부트로더가 기록된 상태로 출고됩니다. USB를 연
 
 공식 보드 지원 병합·빌드 공개 후에는 [ArduPilot 공식 펌웨어 서버](https://firmware.ardupilot.org)의 DCD-FC 타깃을 사용합니다.
 
+## I2C 버스와 IMU 히터
+
+GPS1은 I2C1(버스 1), GPS2는 I2C2(버스 2)를 사용합니다. TLM3와 I2C 포트는 I2C4(버스 0)를 내장 센서와 공유합니다. 이 버스에는 주소 0x0C·0x77 장치를 추가로 연결하지 마세요. 세 버스의 신호는 3.3 V이며 각각 4.7 kΩ 풀업 저항이 있습니다.
+
+IMU 히터 목표 온도는 BRD_HEAT_TARG로 설정하며 기본값은 45 °C입니다.
+
 ## PWM과 DShot
 
-16개 출력 모두 PWM과 DShot을 지원합니다. I1~I4의 양방향 DShot은 BRD_IO_DSHOT=1로 설정하고 재부팅하여 사용합니다.
+16개 출력 모두 PWM과 DShot을 지원합니다. F1~F8은 양방향 DShot을 지원합니다. I1~I4는 BRD_IO_DSHOT=1로 설정하고 재부팅하여 사용합니다. I5~I8은 양방향 DShot을 지원하지 않습니다.
 
 | 보드 출력 | ArduPilot 출력 | 타이머 그룹 |
 | --- | --- | --- |
@@ -122,7 +128,9 @@ IST8310 나침반이 내장되어 있습니다. 장착 환경의 자기장 간�
 
 [ArduPilot 보드 지원 PR #34796](https://github.com/ArduPilot/ardupilot/pull/34796) · [시험 기록](TESTING_KO.md) · [소스 및 빌드 안내](SOURCE.md)
 
-2026-10-21에 ArduCopter `d2416fe2`에서 정상 부팅, 기압계 반응, S.B SBUS 입력 및 TLM2 Yaapu 수신을 확인했습니다. 아래 이전 개발 다운로드와 시험 버전은 다릅니다. 이전 시험과 최신 시험의 범위는 시험 기록에 정리했습니다.
+2026-11-05에 사용자가 `f283ff97`에서 Foxeer Reaper 65A ESC로 F1–F8 전체의 회전과 RPM 수신·변화를 확인했습니다. 시험 범위와 이전 결과는 [시험 기록](TESTING_KO.md)을 참고하세요.
+
+[이번 시험 펌웨어 APJ](DCD_FC_ArduCopter_f283ff97.apj) · [Source](SOURCE.md) · [SHA-256](SHA256SUMS.txt)
 
 ## 이전 개발 펌웨어 자료
 

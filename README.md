@@ -17,8 +17,8 @@ DCD FC is a flight controller with integrated power distribution from Corp.DCLAS
 
 ## Manuals
 
-- [English manual — REV6](DCD_FC_Manual_EN_REV6.pdf)
-- [Korean manual — REV6](DCD_FC_Manual_KO_REV6.pdf)
+- [English manual — REV7](DCD_FC_Manual_EN_REV7.pdf)
+- [Korean manual — REV7](DCD_FC_Manual_KO_REV7.pdf)
 
 The manuals include connector pinouts, wiring, dimensions, installation orientation and power specifications. Front points toward the BAT/ESC pads. Attach the FC to the aircraft with double-sided tape.
 
@@ -84,9 +84,15 @@ The board ships with an ArduPilot-compatible bootloader. Connect USB and upload 
 
 After board support is merged and builds are published, use the DCD-FC target on the [ArduPilot firmware server](https://firmware.ardupilot.org).
 
+## I2C buses and IMU heater
+
+GPS1 uses I2C1 (bus 1); GPS2 uses I2C2 (bus 2). TLM3 and the I2C port share I2C4 (bus 0) with the onboard sensors. Do not add devices at addresses 0x0C or 0x77 to this bus. All three buses use 3.3 V signals with onboard 4.7 kOhm pull-ups.
+
+Set the IMU heater target with BRD_HEAT_TARG. The default is 45 degrees Celsius.
+
 ## PWM and DShot
 
-All 16 outputs support PWM and DShot. To use Bi-Directional DShot on I1-I4, set BRD_IO_DSHOT=1 and reboot.
+All 16 outputs support PWM and DShot. F1-F8 support Bi-Directional DShot. For I1-I4, set BRD_IO_DSHOT=1 and reboot. I5-I8 do not support Bi-Directional DShot.
 
 | Board outputs | ArduPilot outputs | Timer group |
 | --- | --- | --- |
@@ -122,7 +128,9 @@ An IST8310 compass is fitted. Due to potential magnetic interference, an externa
 
 [ArduPilot board-support PR #34796](https://github.com/ArduPilot/ardupilot/pull/34796) · [Test record](TESTING.md) · [Source and build instructions](SOURCE.md)
 
-On 2026-10-21, ArduCopter `d2416fe2` passed contributor-reported boot, barometer response, S.B SBUS input and TLM2 Yaapu reception checks. That test image differs from the earlier downloads below. The test record separates current and historical evidence.
+On 2026-11-05, the contributor confirmed motor rotation and RPM reception/change on F1-F8 using `f283ff97` and a Foxeer Reaper 65A ESC. See the [test record](TESTING.md) for the evidence scope and historical results.
+
+[Current bench-tested APJ](DCD_FC_ArduCopter_f283ff97.apj) · [Source](SOURCE.md) · [SHA-256](SHA256SUMS.txt)
 
 ## Earlier development firmware
 

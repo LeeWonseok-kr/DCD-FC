@@ -2,9 +2,11 @@
 
 ## Current board support
 
-[PR #34796](https://github.com/ArduPilot/ardupilot/pull/34796) contains the current DCD-FC port. The source reviewed on 2026-10-21 is [`c8a883f406`](https://github.com/LeeWonseok-kr/ardupilot/tree/c8a883f406c4c6810935e80e6424161a31b301a1). Clone that repository, check out the pinned commit and initialize its submodules before building with GNU Arm Embedded 10.2.1 (10-2020-q4-major). Use `./waf configure --board DCD-FC` followed by `./waf copter` for the application.
+[PR #34796](https://github.com/ArduPilot/ardupilot/pull/34796) contains the DCD-FC port. The current source is [`f283ff97a8`](https://github.com/LeeWonseok-kr/ardupilot/tree/f283ff97a815396f89ef2f4c918b0e65ceedcd0f). The [current APJ](DCD_FC_ArduCopter_f283ff97.apj) was built from this commit with GNU Arm Embedded 10.2.1 (10-2020-q4-major).
 
-The hardware-tested image identifies itself as `d2416fe2`. The pinned review commit differs only in the README correction limiting IO bidirectional DShot to I1-I4; runtime code, hwdefs and committed bootloader bytes are unchanged. See the [test record](TESTING.md). The earlier binaries below must use their own corresponding source archive.
+Clone `https://github.com/LeeWonseok-kr/ardupilot.git`, check out `f283ff97a815396f89ef2f4c918b0e65ceedcd0f`, then run `git submodule update --init --recursive`. Install the ArduPilot build prerequisites and use `./waf configure --board DCD-FC --no-submodule-update --Werror` followed by `./waf copter`. Retain upstream license notices.
+
+The contributor reported F1-F8 motor rotation and RPM reception/change on this image with a Foxeer Reaper 65A ESC on 2026-11-05. See the [test record](TESTING.md) for limits and historical evidence. The current image adds FMU bidirectional DShot; earlier downloads below do not include this update. The committed bootloader BIN and stock F103 IO images are unchanged.
 
 ## Earlier development downloads
 

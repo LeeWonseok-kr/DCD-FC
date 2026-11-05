@@ -2,7 +2,17 @@
 
 [English](TESTING.md) · [제품 안내](README_KO.md) · [보드 지원 PR](https://github.com/ArduPilot/ardupilot/pull/34796)
 
-## 최신 리뷰 펌웨어
+## 현재 검토 펌웨어
+
+2026-11-05 사용자 확인: ArduCopter 4.8.0-dev `f283ff97`, Foxeer Reaper 65A ESC로 F1–F8 전체의 모터 회전과 RPM 수신·변화를 확인했습니다. 사용자는 이번 hwdef.dat·README.md 변경분도 직접 검토했다고 확인했습니다.
+
+이는 사용자 보고에 따른 벤치 시험 결과입니다. ESC 펌웨어 버전과 새 원본 로그·파라미터 파일은 제공되지 않았습니다. 장치 플래시를 별도로 읽어 대조하지 않았으며, 8개 ESC 동시 구동이나 비행 시험을 의미하지 않습니다.
+
+APJ SHA-256: `36c632e8474896ac3d1c1654f65c2e96c1828c29ff5b058cc8bce9eebae9992b`. [Firmware](DCD_FC_ArduCopter_f283ff97.apj) · [Source](https://github.com/LeeWonseok-kr/ardupilot/tree/f283ff97a815396f89ef2f4c918b0e65ceedcd0f).
+
+이 빌드는 --Werror Copter 빌드와 설정·문서 51개, 이미지·소스 18개 검사를 통과했습니다. 순정 IO 이미지·부트로더 BIN·배터리 기본값을 유지합니다.
+
+## 이전 2026-10-21 시험
 
 2026-10-21 사용자가 ArduCopter 4.8.0-dev `d2416fe2`에서 확인한 지상 시험입니다.
 

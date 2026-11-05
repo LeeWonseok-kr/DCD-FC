@@ -4,6 +4,16 @@
 
 ## Current review firmware
 
+On 2026-11-05, the contributor confirmed motor rotation and RPM reception/change on all F1-F8 outputs using ArduCopter 4.8.0-dev `f283ff97` and a Foxeer Reaper 65A ESC. The contributor also confirmed direct review of the new hwdef.dat and README.md changes.
+
+This is contributor-reported bench evidence. The ESC firmware version and new raw logs/parameter files were not supplied. Device flash was not independently read back. Simultaneous eight-ESC operation and flight performance are not established by this report.
+
+APJ SHA-256: `36c632e8474896ac3d1c1654f65c2e96c1828c29ff5b058cc8bce9eebae9992b`. [Firmware](DCD_FC_ArduCopter_f283ff97.apj) · [Source](https://github.com/LeeWonseok-kr/ardupilot/tree/f283ff97a815396f89ef2f4c918b0e65ceedcd0f).
+
+This image passed the Copter build with --Werror, 51 configuration/document checks and 18 image/source checks. Stock IO images, the bootloader BIN and battery defaults are retained.
+
+## Previous 2026-10-21 tests
+
 Bench results reported by the contributor on 2026-10-21 using ArduCopter 4.8.0-dev `d2416fe2`.
 
 | Check | Result |
