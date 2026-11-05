@@ -17,8 +17,8 @@ DCD FC는 Corp.DCLASS의 전원 분배 일체형 비행제어기입니다. 비�
 
 ## 매뉴얼
 
-- [한글 매뉴얼 — REV7](DCD_FC_Manual_KO_REV7.pdf)
-- [영문 매뉴얼 — REV7](DCD_FC_Manual_EN_REV7.pdf)
+- [한글 매뉴얼 — REV8](DCD_FC_Manual_KO_REV8.pdf)
+- [영문 매뉴얼 — REV8](DCD_FC_Manual_EN_REV8.pdf)
 
 포트 핀 배열, 배선도, 치수, 장착 방향과 전원 사양을 수록했습니다. BAT·ESC 전원 패드 쪽이 Front이며, FC는 양면테이프로 기체에 고정합니다.
 
@@ -74,10 +74,6 @@ FURE는 FMU, IORE는 IO 프로세서를 리셋합니다. DFU 진입 버튼이 �
 
 모든 UART는 송신·수신 DMA를 사용합니다. USART6는 FMU와 IO 사이의 내부 통신용입니다.
 
-## Yaapu 텔레메트리
-
-TLM2(SERIAL2)에서 SERIAL2_PROTOCOL=10(FrSky S.Port Passthrough)으로 설정하고 재부팅합니다. 수신기·변환기 배선은 해당 장치의 S.Port 연결 규격을 따르세요. S.B의 SBUS 조종 입력과 별도의 텔레메트리 경로입니다.
-
 ## 펌웨어 설치
 
 ArduPilot 호환 부트로더가 기록된 상태로 출고됩니다. USB를 연결하고 Mission Planner 등 호환 지상국에서 DCD-FC용 .apj 파일을 업로드하세요. 정상 업데이트에는 DFU 진입이나 ST-Link가 필요하지 않습니다.
@@ -86,7 +82,9 @@ ArduPilot 호환 부트로더가 기록된 상태로 출고됩니다. USB를 연
 
 ## I2C 버스와 IMU 히터
 
-GPS1은 I2C1(버스 1), GPS2는 I2C2(버스 2)를 사용합니다. TLM3와 I2C 포트는 I2C4(버스 0)를 내장 센서와 공유합니다. 이 버스에는 주소 0x0C·0x77 장치를 추가로 연결하지 마세요. 세 버스의 신호는 3.3 V이며 각각 4.7 kΩ 풀업 저항이 있습니다.
+GPS1은 버스 1, GPS2는 버스 2를 사용합니다. TLM3와 I2C 포트는 내장 센서와 버스 0을 공유하므로 주소 0x0C·0x77 장치를 추가로 연결하지 마세요. 세 버스는 3.3 V 신호와 4.7 kΩ 풀업 저항을 사용하며 커넥터 전원은 5 V입니다.
+
+GPS·나침반 모듈은 GPS1 또는 GPS2에 연결하세요. 내부 버스 0은 외부 나침반용으로 탐색하지 않아 기본 설정에서 QMC5883L/P·IIS2MDC 나침반을 인식하지 않습니다. TLM3/I2C의 I2C 대기속도 센서는 ARSPD_BUS=0 설정 후 재부팅하세요. MS4525는 ARSPD_BUS를 지정하지 않았을 때 버스 0에서도 자동 탐색할 수 있습니다.
 
 IMU 히터 목표 온도는 BRD_HEAT_TARG로 설정하며 기본값은 45 °C입니다.
 

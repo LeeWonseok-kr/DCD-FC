@@ -2,7 +2,9 @@
 
 ## Current board support
 
-[PR #34796](https://github.com/ArduPilot/ardupilot/pull/34796) contains the DCD-FC port. The current source is [`f283ff97a8`](https://github.com/LeeWonseok-kr/ardupilot/tree/f283ff97a815396f89ef2f4c918b0e65ceedcd0f). The [current APJ](DCD_FC_ArduCopter_f283ff97.apj) was built from this commit with GNU Arm Embedded 10.2.1 (10-2020-q4-major).
+The latest PR revision is [`65c8fa87b3`](https://github.com/LeeWonseok-kr/ardupilot/tree/65c8fa87b3bc72a9f405e52630557c1798a160a3). It changes only the I2C README text relative to the tested `f283ff97` revision; firmware sources, hwdefs and bootloader files are identical. The downloadable APJ remains the tested `f283ff97` build.
+
+[PR #34796](https://github.com/ArduPilot/ardupilot/pull/34796) contains the DCD-FC port. The source used to build the downloadable APJ is [`f283ff97a8`](https://github.com/LeeWonseok-kr/ardupilot/tree/f283ff97a815396f89ef2f4c918b0e65ceedcd0f). The [current APJ](DCD_FC_ArduCopter_f283ff97.apj) was built from this commit with GNU Arm Embedded 10.2.1 (10-2020-q4-major).
 
 Clone `https://github.com/LeeWonseok-kr/ardupilot.git`, check out `f283ff97a815396f89ef2f4c918b0e65ceedcd0f`, then run `git submodule update --init --recursive`. Install the ArduPilot build prerequisites and use `./waf configure --board DCD-FC --no-submodule-update --Werror` followed by `./waf copter`. Retain upstream license notices.
 

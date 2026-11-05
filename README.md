@@ -17,8 +17,8 @@ DCD FC is a flight controller with integrated power distribution from Corp.DCLAS
 
 ## Manuals
 
-- [English manual — REV7](DCD_FC_Manual_EN_REV7.pdf)
-- [Korean manual — REV7](DCD_FC_Manual_KO_REV7.pdf)
+- [English manual — REV8](DCD_FC_Manual_EN_REV8.pdf)
+- [Korean manual — REV8](DCD_FC_Manual_KO_REV8.pdf)
 
 The manuals include connector pinouts, wiring, dimensions, installation orientation and power specifications. Front points toward the BAT/ESC pads. Attach the FC to the aircraft with double-sided tape.
 
@@ -74,10 +74,6 @@ These are the normal indications while ArduPilot runs. Bootloader, firmware-upda
 
 All UARTs have RX and TX DMA. USART6 is the internal link between the FMU and IO processors.
 
-## Yaapu telemetry
-
-For TLM2 (SERIAL2), set SERIAL2_PROTOCOL=10 (FrSky S.Port Passthrough) and reboot. Follow the receiver or adapter instructions for its S.Port wiring. This telemetry path is separate from the SBUS control input on S.B.
-
 ## Loading firmware
 
 The board ships with an ArduPilot-compatible bootloader. Connect USB and upload a DCD-FC .apj file using Mission Planner or another compatible ground station. Normal updates do not require DFU mode or ST-Link.
@@ -86,7 +82,9 @@ After board support is merged and builds are published, use the DCD-FC target on
 
 ## I2C buses and IMU heater
 
-GPS1 uses I2C1 (bus 1); GPS2 uses I2C2 (bus 2). TLM3 and the I2C port share I2C4 (bus 0) with the onboard sensors. Do not add devices at addresses 0x0C or 0x77 to this bus. All three buses use 3.3 V signals with onboard 4.7 kOhm pull-ups.
+GPS1 uses bus 1; GPS2 uses bus 2. TLM3 and the I2C port share internal bus 0 with the onboard sensors; do not add devices at 0x0C or 0x77. All three buses use 3.3 V signals and onboard 4.7 kOhm pull-ups. Connector power is 5 V.
+
+Connect GPS/compass modules to GPS1 or GPS2. Bus 0 is not scanned as an external compass bus; QMC5883L/P and IIS2MDC compasses are not detected there by default. For an I2C airspeed sensor on TLM3/I2C, set ARSPD_BUS=0 and reboot. MS4525 can also auto-detect on bus 0 when ARSPD_BUS has not been configured.
 
 Set the IMU heater target with BRD_HEAT_TARG. The default is 45 degrees Celsius.
 
