@@ -4,152 +4,36 @@
 
 DCD FC는 Corp.DCLASS의 전원 분배 일체형 비행제어기입니다. 비행 제어, 주변기기 연결, 외부 ESC 4개의 배터리 전원 연결을 한 보드에 통합했습니다.
 
-![DCD FC](DCD_FC_Product.png)
+![DCD FC](assets/DCD_FC_Product.png)
+
+## 다운로드
+
+| 자료 | 링크 |
+| --- | --- |
+| 사용 매뉴얼 · REV8 | [한글 PDF](DCD_FC_Manual_KO_REV8.pdf) · [English PDF](DCD_FC_Manual_EN_REV8.pdf) |
+| 개발 펌웨어 · ArduCopter 4.8.0-dev | [APJ 다운로드 · f283ff97](firmware/DCD_FC_ArduCopter_f283ff97.apj) |
+| 펌웨어 설치 | [한글](INSTALL_KO.md) · [English](INSTALL.md) |
+| 포트·LED·설정 안내 | [한글](docs/REFERENCE_KO.md) · [English](docs/REFERENCE_EN.md) |
+
+DCD-FC 보드 지원은 **2026년 11월 24일 ArduPilot에 병합**되었습니다([#34796](https://github.com/ArduPilot/ardupilot/pull/34796)). 2026년 11월 25일 기준 [공식 펌웨어 서버](https://firmware.ardupilot.org)에 DCD-FC 다운로드는 아직 게시되지 않았습니다. 위 APJ는 기존 개발 빌드이며 공식 정식판이 아닙니다.
 
 ## 주요 특징
 
 - STM32H743 메인 프로세서와 STM32F103 IO 프로세서
 - BMI088·ICM-42688-P IMU, MS5611 기압계, IST8310 나침반
-- PWM 16채널, GPS 2포트, 텔레메트리 3포트, I2C·SBUS·USB
+- PWM 16채널, F1–F8·I1–I4 양방향 DShot 지원
+- GPS 2포트, 텔레메트리 3포트, I2C·SBUS·USB
 - FRAM 설정 저장과 microSD 로그 기록
-- 입력 전압: 3–6셀 LiPo, 최대 25.2 V
-- 케이스 외형: 약 126 × 84 × 13 mm / 케이스 포함 103 g
+- 입력 전압: **3–6셀 LiPo, 최대 25.2 V**
+- 케이스 외형: 약 **126 × 84 × 13 mm** / 케이스 포함 **103 g**
 
-## 매뉴얼
+매뉴얼에 포트 핀 배열, 배선도, 치수, 장착 방향과 전원 사양을 수록했습니다. 기본값은 전압만 측정하는 `BATT_MONITOR=3`입니다. 전류 측정(`4`)을 선택해도 ESC 구동 전류는 포함되지 않습니다. 자세한 내용은 [설정 안내](docs/REFERENCE_KO.md)를 참고하세요.
 
-- [한글 매뉴얼 — REV8](DCD_FC_Manual_KO_REV8.pdf)
-- [영문 매뉴얼 — REV8](DCD_FC_Manual_EN_REV8.pdf)
+## 개발 자료
 
-포트 핀 배열, 배선도, 치수, 장착 방향과 전원 사양을 수록했습니다. BAT·ESC 전원 패드 쪽이 Front이며, FC는 양면테이프로 기체에 고정합니다.
+[공식 보드 소스](https://github.com/ArduPilot/ardupilot/tree/master/libraries/AP_HAL_ChibiOS/hwdef/DCD-FC) · [대응 소스·빌드 안내](docs/SOURCE.md) · [시험 기록](docs/TESTING_KO.md) · [파일 체크섬](SHA256SUMS.txt) · [라이선스](LICENSES.md)
 
-내장 전류 센서는 배터리에서 FC·주변기기·PWM 전원으로 공급되는 전류를 측정합니다. ESC 구동 전류는 포함하지 않습니다. 기체 전체 배터리 소모량 측정에는 외부 전류 센서가 필요합니다.
-
-최신 [DCD-FC 보드 지원](https://github.com/ArduPilot/ardupilot/pull/34796)은 `BATT_MONITOR=3`으로 전압만 측정합니다. FC 전류가 필요하면 `BATT_MONITOR=4`, 전압·전류 핀 `8/4`, `BATT_VOLT_MULT=8.987575`, `BATT_AMP_PERVLT=0.25`, `BATT_AMP_OFFSET=0`으로 설정하고 재부팅하세요. 전압·전류 배율은 기준 계측기와 비교하여 보정하세요.
-
-아래 통신·출력 설정은 최신 DCD-FC 보드 지원 기준입니다. 하단의 이전 개발 펌웨어는 기본값·기능이 다를 수 있습니다.
-
-## 리셋 버튼과 개별 LED
-
-FURE는 FMU, IORE는 IO 프로세서를 리셋합니다. DFU 진입 버튼이 아니며 비행 중에는 누르지 마세요.
-
-케이스를 위에서 보고 BAT·ESC 전원 패드를 위로 둔 방향입니다. 번호는 아래 설명용입니다.
-
-![LED positions](DCD_FC_LED_Positions.png)
-
-| 위치 | 역할 | 표시 의미 |
-| --- | --- | --- |
-| 1 · FU 왼쪽 | FMU 상태 | 시동·사전 점검·보정 상태를 표시합니다. 아래 점멸 설명을 참고하세요. |
-| 2 · FU 가운데 | GPS 상태 | GPS 미연결·위치 미확정 시 꺼집니다. 위치 확보 후 위성 수에 따른 묶음 점멸을 반복합니다. |
-| 3 · FU 오른쪽 | FMU 전원 | FMU 3.3 V 전원이 공급되면 켜집니다. |
-| 4 · IO 왼쪽 | FMU 통신 경고 | FMU 제어 데이터가 200 ms 넘게 수신되지 않으면 켜집니다. 정상 수신 중에는 꺼집니다. |
-| 5 · IO 가운데 | IO 상시 점등 | 순정 IO 펌웨어 실행 중 계속 켜져 있습니다. 통신 정상 여부는 4번 LED로 확인합니다. |
-| 6 · IO 오른쪽 | IO 전원 | IO 3.3 V 전원이 공급되면 켜집니다. |
-
-### 1번 FMU 상태 LED 점멸
-
-| 표시 | 상태 |
-| --- | --- |
-| 빠른 점멸 · 부팅 직후 | 초기화 중 |
-| 느린 한 번 점멸 반복 · 시동 전 | 사전 점검 통과 |
-| 두 번씩 점멸 반복 · 시동 전 | 사전 점검 미통과 — 지상국 메시지 확인 |
-| 계속 켜짐 | 시동 허용(Armed), 배터리·RC·GCS 페일세이프 없음 |
-| 점멸 · 시동 허용 후 | 배터리 페일세이프. RC·GCS 페일세이프는 더 빠르게 점멸 |
-
-1·2번이 번갈아 점멸하면 트림 저장 또는 ESC 보정, 함께 짧게 점멸하면 나침반 또는 IMU 온도 보정 중입니다.
-
-위 설명은 ArduPilot 실행 중의 기본 표시입니다. 부트로더·펌웨어 업데이트·AutoTune 알림 중에는 패턴이 달라집니다. 전원 LED 점등만으로 정상 동작을 판단하지 마세요.
-
-## UART와 USB
-
-| 파라미터 | 연결 | 기본 프로토콜 |
-| --- | --- | --- |
-| SERIAL0 | USB 첫 번째 가상 포트 | MAVLink |
-| SERIAL1 | TLM1 · UART7 · CTS/RTS | MAVLink2 |
-| SERIAL2 | TLM2 · UART5 · CTS/RTS | MAVLink2 |
-| SERIAL3 | GPS1 · USART1 | GPS |
-| SERIAL4 | GPS2 · UART8 | GPS |
-| SERIAL5 | TLM3 · USART2 | 미사용 |
-| SERIAL6 | USART3 · 외부로 나오지 않음 | 미사용 |
-| SERIAL7 | 같은 USB의 두 번째 가상 포트 | MAVLink2 |
-
-모든 UART는 송신·수신 DMA를 사용합니다. USART6는 FMU와 IO 사이의 내부 통신용입니다.
-
-## 펌웨어 설치
-
-ArduPilot 호환 부트로더가 기록된 상태로 출고됩니다. USB를 연결하고 Mission Planner 등 호환 지상국에서 DCD-FC용 .apj 파일을 업로드하세요. 정상 업데이트에는 DFU 진입이나 ST-Link가 필요하지 않습니다.
-
-공식 보드 지원 병합·빌드 공개 후에는 [ArduPilot 공식 펌웨어 서버](https://firmware.ardupilot.org)의 DCD-FC 타깃을 사용합니다.
-
-## I2C 버스와 IMU 히터
-
-GPS1은 버스 1, GPS2는 버스 2를 사용합니다. TLM3와 I2C 포트는 내장 센서와 버스 0을 공유하므로 주소 0x0C·0x77 장치를 추가로 연결하지 마세요. 세 버스는 3.3 V 신호와 4.7 kΩ 풀업 저항을 사용하며 커넥터 전원은 5 V입니다.
-
-GPS·나침반 모듈은 GPS1 또는 GPS2에 연결하세요. 내부 버스 0은 외부 나침반용으로 탐색하지 않아 기본 설정에서 QMC5883L/P·IIS2MDC 나침반을 인식하지 않습니다. TLM3/I2C의 I2C 대기속도 센서는 ARSPD_BUS=0 설정 후 재부팅하세요. MS4525는 ARSPD_BUS를 지정하지 않았을 때 버스 0에서도 자동 탐색할 수 있습니다.
-
-IMU 히터 목표 온도는 BRD_HEAT_TARG로 설정하며 기본값은 45 °C입니다.
-
-## PWM과 DShot
-
-16개 출력 모두 PWM과 DShot을 지원합니다. F1~F8은 양방향 DShot을 지원합니다. I1~I4는 BRD_IO_DSHOT=1로 설정하고 재부팅하여 사용합니다. I5~I8은 양방향 DShot을 지원하지 않습니다.
-
-| 보드 출력 | ArduPilot 출력 | 타이머 그룹 |
-| --- | --- | --- |
-| I1~I2 | SERVO1~2 | IO TIM2 |
-| I3~I4 | SERVO3~4 | IO TIM4 |
-| I5~I8 | SERVO5~8 | IO TIM3 |
-| F1~F4 | SERVO9~12 | FMU TIM1 |
-| F5~F6 | SERVO13~14 | FMU TIM4 |
-| F7~F8 | SERVO15~16 | FMU TIM5 |
-
-같은 그룹의 채널은 동일한 출력 주기를 사용해야 합니다. 그룹 안에서 한 채널을 DShot으로 사용하면 같은 그룹 전체를 DShot으로 설정하세요.
-
-## 수신기와 RSSI
-
-SBUS 수신기는 S.B의 4번 핀에 연결합니다. PPM은 지원하지 않습니다. CRSF/ELRS 수신기는 TLM3의 TX·RX에 연결하고 SERIAL5_PROTOCOL=23으로 설정합니다.
-
-아날로그 RSSI는 S.B의 3번 핀을 사용하며 RSSI_TYPE=1, RSSI_ANA_PIN=103으로 설정합니다. S.OUT은 IO의 SBUS 출력이며 BRD_SBUS_OUT으로 활성화합니다. SBUS 출력과 아날로그 RSSI는 동시에 사용할 수 없습니다.
-
-## GPIO
-
-| 보드 출력 | GPIO 번호 |
-| --- | --- |
-| F1~F8 | 50~57 |
-| I1~I8 | 101~108 |
-
-출력 핀을 GPIO로 설정할 때 위 번호를 사용합니다. GPIO는 신호용이며 전원 공급용이 아닙니다.
-
-## 나침반
-
-IST8310 나침반이 내장되어 있습니다. 장착 환경의 자기장 간섭을 고려하여 GPS와 결합된 외부 I2C 나침반 사용을 권장합니다.
-
-## 보드 지원과 시험 기록
-
-[ArduPilot 보드 지원 PR #34796](https://github.com/ArduPilot/ardupilot/pull/34796) · [시험 기록](TESTING_KO.md) · [소스 및 빌드 안내](SOURCE.md)
-
-2026-11-05에 사용자가 `f283ff97`에서 Foxeer Reaper 65A ESC로 F1–F8 전체의 회전과 RPM 수신·변화를 확인했습니다. 시험 범위와 이전 결과는 [시험 기록](TESTING_KO.md)을 참고하세요.
-
-[이번 시험 펌웨어 APJ](DCD_FC_ArduCopter_f283ff97.apj) · [Source](SOURCE.md) · [SHA-256](SHA256SUMS.txt)
-
-## 이전 개발 펌웨어 자료
-
-[Release downloads / 릴리스 다운로드](https://github.com/LeeWonseok-kr/DCD-FC/releases/tag/test-2026-10-13)
-
-아래 다운로드는 기존 ArduCopter 4.8.0-dev 시험용 개발 빌드이며, 당시 기본값은 `BATT_MONITOR=4`입니다. 최신 PR 수정사항은 포함하지 않습니다. 보드 ID **1413**은 [#34787](https://github.com/ArduPilot/ardupilot/pull/34787)에서 예약됐습니다. 이전 빌드의 시험 범위는 [시험 기록](TESTING_KO.md)을 참고하세요.
-
-보드 지원이 병합되고 빌드가 공개되면 [ArduPilot 공식 펌웨어 서버](https://firmware.ardupilot.org)에서 `DCD-FC` 타깃을 이용할 수 있습니다. 수정된 포트는 공용으로 관리되는 순정 F103 일반·DShot IO 응용 펌웨어를 사용하며, 호환되는 순정 IO 부트로더는 유지합니다.
-
-| 파일 | 용도 |
-| --- | --- |
-| [펌웨어 APJ](DCD_FC_ArduCopter_4.8.0-dev.apj) | 같은 보드 ID의 부트로더에서 Mission Planner로 갱신 |
-| [통합 HEX](DCD_FC_ArduCopter_with_Bootloader.hex) | FMU 최초 설치: 부트로더와 펌웨어 |
-| [부트로더 HEX](DCD_FC_Bootloader.hex) / [BIN](DCD_FC_Bootloader.bin) | FMU 부트로더 |
-| [IO 부트로더 HEX](DCD_FC_IO_Bootloader.hex) / [BIN](DCD_FC_IO_Bootloader.bin) | STM32F103용 순정 IO 부트로더 · IOUP 전용 |
-| [IO 부트로더 패키지](DCD_FC_IO_Bootloader_Package.zip) | IO BIN·HEX, 대응 소스와 빌드 안내 |
-| [펌웨어 BIN](DCD_FC_ArduCopter_4.8.0-dev.bin) | FMU 응용 펌웨어 원시 이미지 |
-
-[설치 안내](INSTALL_KO.md) · [파일 해시](SHA256SUMS.txt) · [소스 및 빌드 방법](SOURCE.md)
-
-펌웨어는 ArduPilot 기반 GPL-3.0-or-later 소프트웨어이며, 해당 빌드의 소스와 원저작권·라이선스를 함께 제공합니다.
+[이전 버전](archive/README.md)은 참고용으로 보존합니다.
 
 ## 구매 및 기술지원
 

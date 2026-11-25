@@ -1,0 +1,103 @@
+# DCD FC 연결 및 설정 안내
+
+[제품 소개](../README_KO.md) · [English](REFERENCE_EN.md)
+
+내장 전류 센서는 배터리에서 FC·주변기기·PWM 전원으로 공급되는 전류를 측정합니다. ESC 구동 전류는 포함하지 않습니다. 기체 전체 배터리 소모량 측정에는 외부 전류 센서가 필요합니다.
+
+최신 [DCD-FC 보드 지원](https://github.com/ArduPilot/ardupilot/pull/34796)은 `BATT_MONITOR=3`으로 전압만 측정합니다. FC 전류가 필요하면 `BATT_MONITOR=4`, 전압·전류 핀 `8/4`, `BATT_VOLT_MULT=8.987575`, `BATT_AMP_PERVLT=0.25`, `BATT_AMP_OFFSET=0`으로 설정하고 재부팅하세요. 전압·전류 배율은 기준 계측기와 비교하여 보정하세요.
+
+아래 통신·출력 설정은 최신 DCD-FC 보드 지원 기준입니다. 보관된 이전 개발 펌웨어는 기본값·기능이 다를 수 있습니다.
+
+## 리셋 버튼과 개별 LED
+
+FURE는 FMU, IORE는 IO 프로세서를 리셋합니다. DFU 진입 버튼이 아니며 비행 중에는 누르지 마세요.
+
+케이스를 위에서 보고 BAT·ESC 전원 패드를 위로 둔 방향입니다. 번호는 아래 설명용입니다.
+
+![LED positions](../assets/DCD_FC_LED_Positions.png)
+
+| 위치 | 역할 | 표시 의미 |
+| --- | --- | --- |
+| 1 · FU 왼쪽 | FMU 상태 | 시동·사전 점검·보정 상태를 표시합니다. 아래 점멸 설명을 참고하세요. |
+| 2 · FU 가운데 | GPS 상태 | GPS 미연결·위치 미확정 시 꺼집니다. 위치 확보 후 위성 수에 따른 묶음 점멸을 반복합니다. |
+| 3 · FU 오른쪽 | FMU 전원 | FMU 3.3 V 전원이 공급되면 켜집니다. |
+| 4 · IO 왼쪽 | FMU 통신 경고 | FMU 제어 데이터가 200 ms 넘게 수신되지 않으면 켜집니다. 정상 수신 중에는 꺼집니다. |
+| 5 · IO 가운데 | IO 상시 점등 | 순정 IO 펌웨어 실행 중 계속 켜져 있습니다. 통신 정상 여부는 4번 LED로 확인합니다. |
+| 6 · IO 오른쪽 | IO 전원 | IO 3.3 V 전원이 공급되면 켜집니다. |
+
+### 1번 FMU 상태 LED 점멸
+
+| 표시 | 상태 |
+| --- | --- |
+| 빠른 점멸 · 부팅 직후 | 초기화 중 |
+| 느린 한 번 점멸 반복 · 시동 전 | 사전 점검 통과 |
+| 두 번씩 점멸 반복 · 시동 전 | 사전 점검 미통과 — 지상국 메시지 확인 |
+| 계속 켜짐 | 시동 허용(Armed), 배터리·RC·GCS 페일세이프 없음 |
+| 점멸 · 시동 허용 후 | 배터리 페일세이프. RC·GCS 페일세이프는 더 빠르게 점멸 |
+
+1·2번이 번갈아 점멸하면 트림 저장 또는 ESC 보정, 함께 짧게 점멸하면 나침반 또는 IMU 온도 보정 중입니다.
+
+위 설명은 ArduPilot 실행 중의 기본 표시입니다. 부트로더·펌웨어 업데이트·AutoTune 알림 중에는 패턴이 달라집니다. 전원 LED 점등만으로 정상 동작을 판단하지 마세요.
+
+## UART와 USB
+
+| 파라미터 | 연결 | 기본 프로토콜 |
+| --- | --- | --- |
+| SERIAL0 | USB 첫 번째 가상 포트 | MAVLink |
+| SERIAL1 | TLM1 · UART7 · CTS/RTS | MAVLink2 |
+| SERIAL2 | TLM2 · UART5 · CTS/RTS | MAVLink2 |
+| SERIAL3 | GPS1 · USART1 | GPS |
+| SERIAL4 | GPS2 · UART8 | GPS |
+| SERIAL5 | TLM3 · USART2 | 미사용 |
+| SERIAL6 | USART3 · 외부로 나오지 않음 | 미사용 |
+| SERIAL7 | 같은 USB의 두 번째 가상 포트 | MAVLink2 |
+
+모든 UART는 송신·수신 DMA를 사용합니다. USART6는 FMU와 IO 사이의 내부 통신용입니다.
+
+## 펌웨어 설치
+
+ArduPilot 호환 부트로더가 기록된 상태로 출고됩니다. USB를 연결하고 Mission Planner 등 호환 지상국에서 DCD-FC용 .apj 파일을 업로드하세요. 정상 업데이트에는 DFU 진입이나 ST-Link가 필요하지 않습니다.
+
+현재 다운로드 상태와 설치 절차는 [펌웨어 설치 안내](../INSTALL_KO.md)를 참고하세요.
+
+## I2C 버스와 IMU 히터
+
+GPS1은 버스 1, GPS2는 버스 2를 사용합니다. TLM3와 I2C 포트는 내장 센서와 버스 0을 공유하므로 주소 0x0C·0x77 장치를 추가로 연결하지 마세요. 세 버스는 3.3 V 신호와 4.7 kΩ 풀업 저항을 사용하며 커넥터 전원은 5 V입니다.
+
+GPS·나침반 모듈은 GPS1 또는 GPS2에 연결하세요. 내부 버스 0은 외부 나침반용으로 탐색하지 않아 기본 설정에서 QMC5883L/P·IIS2MDC 나침반을 인식하지 않습니다. TLM3/I2C의 I2C 대기속도 센서는 ARSPD_BUS=0 설정 후 재부팅하세요. MS4525는 ARSPD_BUS를 지정하지 않았을 때 버스 0에서도 자동 탐색할 수 있습니다.
+
+IMU 히터 목표 온도는 BRD_HEAT_TARG로 설정하며 기본값은 45 °C입니다.
+
+## PWM과 DShot
+
+16개 출력 모두 PWM과 DShot을 지원합니다. F1~F8은 양방향 DShot을 지원합니다. I1~I4는 BRD_IO_DSHOT=1로 설정하고 재부팅하여 사용합니다. I5~I8은 양방향 DShot을 지원하지 않습니다.
+
+| 보드 출력 | ArduPilot 출력 | 타이머 그룹 |
+| --- | --- | --- |
+| I1~I2 | SERVO1~2 | IO TIM2 |
+| I3~I4 | SERVO3~4 | IO TIM4 |
+| I5~I8 | SERVO5~8 | IO TIM3 |
+| F1~F4 | SERVO9~12 | FMU TIM1 |
+| F5~F6 | SERVO13~14 | FMU TIM4 |
+| F7~F8 | SERVO15~16 | FMU TIM5 |
+
+같은 그룹의 채널은 동일한 출력 주기를 사용해야 합니다. 그룹 안에서 한 채널을 DShot으로 사용하면 같은 그룹 전체를 DShot으로 설정하세요.
+
+## 수신기와 RSSI
+
+SBUS 수신기는 S.B의 4번 핀에 연결합니다. PPM은 지원하지 않습니다. CRSF/ELRS 수신기는 TLM3의 TX·RX에 연결하고 SERIAL5_PROTOCOL=23으로 설정합니다.
+
+아날로그 RSSI는 S.B의 3번 핀을 사용하며 RSSI_TYPE=1, RSSI_ANA_PIN=103으로 설정합니다. S.OUT은 IO의 SBUS 출력이며 BRD_SBUS_OUT으로 활성화합니다. SBUS 출력과 아날로그 RSSI는 동시에 사용할 수 없습니다.
+
+## GPIO
+
+| 보드 출력 | GPIO 번호 |
+| --- | --- |
+| F1~F8 | 50~57 |
+| I1~I8 | 101~108 |
+
+출력 핀을 GPIO로 설정할 때 위 번호를 사용합니다. GPIO는 신호용이며 전원 공급용이 아닙니다.
+
+## 나침반
+
+IST8310 나침반이 내장되어 있습니다. 장착 환경의 자기장 간섭을 고려하여 GPS와 결합된 외부 I2C 나침반 사용을 권장합니다.

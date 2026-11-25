@@ -1,6 +1,6 @@
 # DCD FC 시험 기록
 
-[English](TESTING.md) · [제품 안내](README_KO.md) · [보드 지원 PR](https://github.com/ArduPilot/ardupilot/pull/34796)
+[English](TESTING.md) · [제품 안내](../README_KO.md) · [보드 지원 PR](https://github.com/ArduPilot/ardupilot/pull/34796)
 
 ## 현재 검토 펌웨어
 
@@ -8,7 +8,7 @@
 
 이는 사용자 보고에 따른 벤치 시험 결과입니다. ESC 펌웨어 버전과 새 원본 로그·파라미터 파일은 제공되지 않았습니다. 장치 플래시를 별도로 읽어 대조하지 않았으며, 8개 ESC 동시 구동이나 비행 시험을 의미하지 않습니다.
 
-APJ SHA-256: `36c632e8474896ac3d1c1654f65c2e96c1828c29ff5b058cc8bce9eebae9992b`. [Firmware](DCD_FC_ArduCopter_f283ff97.apj) · [Source](https://github.com/LeeWonseok-kr/ardupilot/tree/f283ff97a815396f89ef2f4c918b0e65ceedcd0f).
+APJ SHA-256: `36c632e8474896ac3d1c1654f65c2e96c1828c29ff5b058cc8bce9eebae9992b`. [Firmware](../firmware/DCD_FC_ArduCopter_f283ff97.apj) · [Source](https://github.com/LeeWonseok-kr/ardupilot/tree/f283ff97a815396f89ef2f4c918b0e65ceedcd0f).
 
 이 빌드는 --Werror Copter 빌드와 설정·문서 51개, 이미지·소스 18개 검사를 통과했습니다. 순정 IO 이미지·부트로더 BIN·배터리 기본값을 유지합니다.
 
